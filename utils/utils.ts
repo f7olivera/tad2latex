@@ -24,7 +24,11 @@ export const tad2latex = (text : string) => {
   ['	', '    '],
   ['≤', '$\\leq$'],
   ['≥', '$\\geq$'],
-  ['⟷', '$\\longleftrightarrow$']]
+  ['₀', '$_{0}$'],
+  ['₁', '$_{1}$'],
+  ['₂', '$_{2}$'],
+  ['₃', '$_{3}$'],
+  ['⟷', '$\\longleftrightarrow$'],]
 
   let output = text;
   for (const i in unicodeLatexCharacters) {
