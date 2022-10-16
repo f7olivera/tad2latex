@@ -13,6 +13,7 @@ export const tad2latex = (text : string) => {
   ['⇒', '$\\longrightarrow$'],
   ['⟵', '$\\longleftarrow$'],
   ['←', '$\\longleftarrow$'],
+  ['&', '\&'],
   ['⟨', '$\\langle$'],
   ['⟩', '$\\rangle$'],
   ['#', '\#'],
