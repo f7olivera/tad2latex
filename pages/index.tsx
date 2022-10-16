@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css'
 import {
   Box,
   Button,
-  Flex,
+  Flex, HStack,
   Slider,
   SliderFilledTrack,
   SliderThumb,
@@ -67,14 +67,25 @@ const Home: NextPage = () => {
                       placeholder="TADs y módulos"
                       onChange={handleInput}
                       onScroll={handleScroll}/>
-            <Button fontFamily='sans-serif' colorScheme='blackAlpha'
-                    onClick={() => {
-                      const textarea : HTMLTextAreaElement = document.querySelector('#tad-textarea')!;
-                      textarea.select();
-                      navigator.clipboard.writeText(textarea.value).then();
-                    }}>
-              Copy to clipboard
-            </Button>
+            <Flex width='100%' fontFamily='sans-serif' justifyContent='space-evenly'>
+              <Button colorScheme='blackAlpha' ml={4}
+                      onClick={() => {
+                        const tadTextarea: HTMLTextAreaElement = document.querySelector('#tad-textarea')!;
+                        const latexTextarea: HTMLTextAreaElement = document.querySelector('#latex-textarea')!;
+                        tadTextarea.value = "";
+                        latexTextarea.value = "";
+                      }}>
+                Clear
+              </Button>
+              <Button colorScheme='blackAlpha' mr={4}
+                      onClick={() => {
+                        const textarea: HTMLTextAreaElement = document.querySelector('#tad-textarea')!;
+                        textarea.select();
+                        navigator.clipboard.writeText(textarea.value).then();
+                      }}>
+                Copy to clipboard
+              </Button>
+            </Flex>
           </VStack>
           <VStack width={`${100 - textAreaSize}%`}>
             <Textarea width='100%' height='100%' readOnly={true} resize='none' id='latex-textarea'
@@ -85,14 +96,14 @@ const Home: NextPage = () => {
                       placeholder="Pseudo-conversión a LaTeX"
                       onScroll={handleScroll}
                       value={output}/>
-            <Button fontFamily='sans-serif' colorScheme='blackAlpha'
-                    onClick={() => {
-                      const textarea : HTMLTextAreaElement = document.querySelector('#latex-textarea')!;
-                      textarea.select();
-                      navigator.clipboard.writeText(textarea.value).then();
-                    }}>
-              Copy to clipboard
-            </Button>
+              <Button fontFamily='sans-serif' colorScheme='blackAlpha' mr={2}
+                      onClick={() => {
+                        const textarea: HTMLTextAreaElement = document.querySelector('#latex-textarea')!;
+                        textarea.select();
+                        navigator.clipboard.writeText(textarea.value).then();
+                      }}>
+                Copy to clipboard
+              </Button>
           </VStack>
         </Flex>
       </main>
