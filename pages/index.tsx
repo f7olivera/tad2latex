@@ -1,7 +1,17 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import { Box, Flex, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Textarea } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
+  Textarea,
+  VStack
+} from "@chakra-ui/react";
 import React, { ChangeEvent, UIEvent } from "react";
 import { tad2latex } from "../utils/utils";
 
@@ -47,23 +57,43 @@ const Home: NextPage = () => {
               fontFamily='Consolas,Monaco,Lucida Console,Liberation Mono,
                           DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace'
               fontSize={`${fontSize}rem`} color='whiteish'>
-          <Textarea width={`${textAreaSize}%`} height='100%' id='tad-textarea'
-                    resize='none'
-                    backgroundColor='editor'
-                    spellCheck={false}
-                    fontSize='inherit'
-                    color='inherit'
-                    placeholder="TADs y módulos"
-                    onChange={handleInput}
-                    onScroll={handleScroll}/>
-          <Textarea width={`${100 - textAreaSize}%`} height='100%' readOnly={true} resize='none' id='latex-textarea'
-                    backgroundColor='editor'
-                    spellCheck={false}
-                    fontSize='inherit'
-                    color='inherit'
-                    placeholder="Pseudo-conversión a LaTeX"
-                    onScroll={handleScroll}
-                    value={output}/>
+          <VStack width={`${textAreaSize}%`}>
+            <Textarea width='100%' height='100%' id='tad-textarea'
+                      resize='none'
+                      backgroundColor='editor'
+                      spellCheck={false}
+                      fontSize='inherit'
+                      color='inherit'
+                      placeholder="TADs y módulos"
+                      onChange={handleInput}
+                      onScroll={handleScroll}/>
+            <Button fontFamily='sans-serif' colorScheme='blackAlpha'
+                    onClick={() => {
+                      const textarea : HTMLTextAreaElement = document.querySelector('#tad-textarea')!;
+                      textarea.select();
+                      navigator.clipboard.writeText(textarea.value).then();
+                    }}>
+              Copy to clipboard
+            </Button>
+          </VStack>
+          <VStack width={`${100 - textAreaSize}%`}>
+            <Textarea width='100%' height='100%' readOnly={true} resize='none' id='latex-textarea'
+                      backgroundColor='editor'
+                      spellCheck={false}
+                      fontSize='inherit'
+                      color='inherit'
+                      placeholder="Pseudo-conversión a LaTeX"
+                      onScroll={handleScroll}
+                      value={output}/>
+            <Button fontFamily='sans-serif' colorScheme='blackAlpha'
+                    onClick={() => {
+                      const textarea : HTMLTextAreaElement = document.querySelector('#latex-textarea')!;
+                      textarea.select();
+                      navigator.clipboard.writeText(textarea.value).then();
+                    }}>
+              Copy to clipboard
+            </Button>
+          </VStack>
         </Flex>
       </main>
 
