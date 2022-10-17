@@ -2,9 +2,8 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import {
-  Box,
   Button,
-  Flex, HStack,
+  Flex,
   Slider,
   SliderFilledTrack,
   SliderThumb,
@@ -13,7 +12,7 @@ import {
   VStack
 } from "@chakra-ui/react";
 import React, { ChangeEvent, UIEvent } from "react";
-import { tad2latex } from "../utils/utils";
+import { unicode2latex, convertInterfaceFunction, convertAlgorithmFunction } from "../utils/utils";
 
 const Home: NextPage = () => {
   const [output, setOutput] = React.useState("");
@@ -22,7 +21,11 @@ const Home: NextPage = () => {
   const [ignoreScroll, setIgnoreScroll] = React.useState(false);
 
   const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setOutput(tad2latex(e.target.value));
+    const input = (e.target.value).trim().replace(/\n+$/, '').split('---');
+    setOutput(input.map((functionInput) =>
+      functionInput && unicode2latex(/pre *≡/i.test(functionInput) ?
+        convertInterfaceFunction(functionInput) :
+        convertAlgorithmFunction(functionInput) )).join('\n'));
   }
 
   const handleScroll = (e: UIEvent<HTMLTextAreaElement>) => {
@@ -93,7 +96,7 @@ const Home: NextPage = () => {
                       spellCheck={false}
                       fontSize='inherit'
                       color='inherit'
-                      placeholder="Pseudo-conversión a LaTeX"
+                      placeholder="Conversión a LaTeX"
                       onScroll={handleScroll}
                       value={output}/>
               <Button fontFamily='sans-serif' colorScheme='blackAlpha' mr={2}
