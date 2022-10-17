@@ -69,7 +69,7 @@ const Home: NextPage = () => {
                       spellCheck={false}
                       fontSize='inherit'
                       color='inherit'
-                      placeholder="TADs y módulos"
+                      placeholder="Funciones y algoritmos"
                       onChange={handleInput}
                       onScroll={handleScroll}/>
             <Flex width='100%' fontFamily='sans-serif' justifyContent='space-evenly'>
