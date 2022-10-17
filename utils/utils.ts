@@ -35,7 +35,7 @@ export const convertInterfaceFunction = (text: string) => {
 }
 
 export const convertAlgorithmFunction = (text: string) => {
-  const patterns = ['algorithmName', 'parameters', 'resultType', 'algorithm'];
+  const patterns = ['algorithmName', 'parameters', 'resultType'];
 
   const toLatex : {[key: string]: Function} = {
     algorithmName: (text: string) => `\\begin{algorithm}[H]{\\textbf{${text}}`,
@@ -50,12 +50,15 @@ export const convertAlgorithmFunction = (text: string) => {
     })
   );
 
-  text += '\n  \\medskip\n' +
-          '  \\Statex \\underline{Complejidad:} $\\mathcal{O}$(???)\n' +
-          '  \\end{algorithmic}\n' +
-          '\\end{algorithm}';
+  let algorithm = text.split('\n');
+  algorithm.shift();
 
-  return text;
+  return text.split('\n')[0] + '\n' +
+         algorithm.map((line) => toLatex.algorithm(line)).join('\n') +
+         '\n  \\medskip\n' +
+         '  \\Statex \\underline{Complejidad:} $\\mathcal{O}$(???)\n' +
+         '  \\end{algorithmic}\n' +
+         '\\end{algorithm}';
 }
 
 const parseParameters = (text: string) => (
