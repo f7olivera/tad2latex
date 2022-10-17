@@ -2,8 +2,9 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import {
+  Box,
   Button,
-  Flex,
+  Flex, Icon,
   Slider,
   SliderFilledTrack,
   SliderThumb,
@@ -13,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import React, { ChangeEvent, UIEvent } from "react";
 import { unicode2latex, convertInterfaceFunction, convertAlgorithmFunction } from "../utils/utils";
+import { AiFillGithub } from "react-icons/ai";
 
 const Home: NextPage = () => {
   const [output, setOutput] = React.useState("");
@@ -61,7 +63,7 @@ const Home: NextPage = () => {
                           DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace'
               fontSize={`${fontSize}rem`} color='whiteish'>
           <VStack width={`${textAreaSize}%`}>
-            <Textarea width='100%' height='100%' id='tad-textarea'
+            <Textarea width='100%' height='100%' id='tad-textarea' colorScheme='blackAlpha'
                       resize='none'
                       backgroundColor='editor'
                       spellCheck={false}
@@ -91,7 +93,7 @@ const Home: NextPage = () => {
             </Flex>
           </VStack>
           <VStack width={`${100 - textAreaSize}%`}>
-            <Textarea width='100%' height='100%' readOnly={true} resize='none' id='latex-textarea'
+            <Textarea width='100%' height='100%' readOnly={true} resize='none' id='latex-textarea' colorScheme='blackAlpha'
                       backgroundColor='editor'
                       spellCheck={false}
                       fontSize='inherit'
@@ -99,6 +101,7 @@ const Home: NextPage = () => {
                       placeholder="Conversión a LaTeX"
                       onScroll={handleScroll}
                       value={output}/>
+            <Flex width='100%' fontFamily='sans-serif' justifyContent='space-evenly'>
               <Button fontFamily='sans-serif' colorScheme='blackAlpha' mr={2}
                       onClick={() => {
                         const textarea: HTMLTextAreaElement = document.querySelector('#latex-textarea')!;
@@ -107,22 +110,20 @@ const Home: NextPage = () => {
                       }}>
                 Copy to clipboard
               </Button>
+            </Flex>
           </VStack>
         </Flex>
       </main>
 
-      {/*<footer className={styles.footer}>*/}
-      {/*  <a*/}
-      {/*    href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"*/}
-      {/*    target="_blank"*/}
-      {/*    rel="noopener noreferrer"*/}
-      {/*  >*/}
-      {/*    Powered by{' '}*/}
-      {/*    <span className={styles.logo}>*/}
-      {/*      <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />*/}
-      {/*    </span>*/}
-      {/*  </a>*/}
-      {/*</footer>*/}
+      <footer className={styles.footer}>
+        <a
+          href="https://github.com/f7olivera/tad2latex"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icon as={AiFillGithub} color='white' fontSize='xxx-large' />
+        </a>
+      </footer>
     </div>
   )
 }
