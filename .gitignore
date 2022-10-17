@@ -5,6 +5,8 @@
 
 .idea/
 
+package-lock.json
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
