@@ -23,11 +23,11 @@ const Home: NextPage = () => {
   const [ignoreScroll, setIgnoreScroll] = React.useState(false);
 
   const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const input = (e.target.value).trim().replace(/\n+$/, '').split('---');
+    const input = (e.target.value).trim().replace(/\n+$/, '').split('---\n');
     setOutput(input.map((functionInput) =>
       functionInput && unicode2latex(/pre *≡/i.test(functionInput) ?
-        convertInterfaceFunction(functionInput) :
-        convertAlgorithmFunction(functionInput) )).join('\n'));
+        convertInterfaceFunction(functionInput.trim()) :
+        convertAlgorithmFunction(functionInput.trim()) )).join('\n\n'));
   }
 
   const handleScroll = (e: UIEvent<HTMLTextAreaElement>) => {
