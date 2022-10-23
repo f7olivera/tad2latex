@@ -36,11 +36,12 @@ export const unicodeLatexCharacters = [['∈', '$\\in$'],
   ['₂', '$_{2}$'],
   ['₃', '$_{3}$'],
   ['π', '$\\pi$'],
+  ['∅', '$\\emptyset$'],
   ['⟷', '$\\longleftrightarrow$'],];
 
 export const regexPatterns: {[key: string]: RegExp} = {
   interfaceName: /[^ ]+?(?=\(in)/gi,
-  algorithmName: /i[^ ]+?(?=\(in)/gi,
+  algorithmName: /[^ ]+?(?=\(in)/gi,
   parameters: /\(in.+?.+\)/gi,
   resultType: / (⟶|⇒|=>|→) res:.+/gi,
   pre: /pre +≡ {(.|\n)+?}\n/gi,
