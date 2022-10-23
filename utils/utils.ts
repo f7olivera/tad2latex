@@ -9,8 +9,8 @@ export const unicode2latex = (text: string) => {
 }
 
 export const convertInterfaceFunction = (text: string) => {
-  const betweenBracketsPattern    = /(?<={)(\n|.)*?(?=}\n)/gi;
-  const betweenParenthesisPattern = /(?<=\().*?(?=\)\n)/gi;
+  const betweenBracketsPattern    = /(?<={ +)(\n|.)*?(?= +})/gi;
+  const betweenParenthesisPattern = /(?<=: +).*?(?=$|\n)/gi;
 
   const patterns = ['interfaceName', 'parameters', 'resultType', 'pre', 'post', 'complexity', 'description', 'aliasing'];
 
@@ -18,11 +18,11 @@ export const convertInterfaceFunction = (text: string) => {
     interfaceName: (text: string) => `\\InterfazFuncion{${text}}`,
     parameters: (text: string) => `{${parseParameters(text)}}`,
     resultType: (text: string) => `{${text.split(':')[1].trim()}}`,
-    pre: (text: string) => `[ ${text.match(betweenBracketsPattern)![0]} ]\n`,
-    post: (text: string) => `{ ${text.match(betweenBracketsPattern)![0]} }\n`,
+    pre: (text: string) => `[ ${text.match(betweenBracketsPattern)![0]} ]`,
+    post: (text: string) => `{ ${text.match(betweenBracketsPattern)![0]} }`,
     complexity: (text: string) => `[\\oGrande{${text.match(betweenParenthesisPattern)![0]}}]\n`,
-    description: (text: string) => `[${text.split(':')[1].trim()}]\n`,
-    aliasing: (text: string) => `[${text.split(':')[1].trim()}]\n`,
+    description: (text: string) => `[${text.split(':')[1].trim()}]`,
+    aliasing: (text: string) => `[${text.split(':')[1].trim()}]`,
   }
 
   patterns.forEach((pattern) =>

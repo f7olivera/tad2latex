@@ -44,9 +44,9 @@ export const regexPatterns: {[key: string]: RegExp} = {
   algorithmName: /[^ ]+?(?=\(in)/gi,
   parameters: /\(in.+?.+\)/gi,
   resultType: / (⟶|⇒|=>|→) res:.+/gi,
-  pre: /pre +≡ {(.|\n)+?}(\n|$)/gi,
-  post: /post +≡ {(.|\n)+?}(\n|$)/gi,
+  pre: /pre +≡ {(.|\n)+?}/gi,
+  post: /post +≡ {(.|\n)+?}/gi,
   complexity: /complejidad: +(o|Θ)(.+)(\n|$)/gi,
-  description: /descripci[oó]n:.+(\n|$)/gi,
-  aliasing: /aliasing:.+(\n|$)/gi,
+  description: /descripci[oó]n:.+/gi,
+  aliasing: /aliasing:.+/gi,
 }
