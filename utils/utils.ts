@@ -65,7 +65,7 @@ const parseParameters = (text: string) => (
   text.split(',').map((parameter) => {
     if (!text.includes('in')) return '';
 
-    const test = parameter.split(':');
+    const test = parameter.trim().split(':');
     const mode = test[0].split(' ')[0];
     const name = test[0].split(' ')[1].trim();
     const type = test[1].trim();
