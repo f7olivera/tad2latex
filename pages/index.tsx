@@ -4,30 +4,50 @@ import styles from '../styles/Home.module.css'
 import {
   Box,
   Button,
-  Flex, Icon,
+  Flex, Icon, Radio,
+  RadioGroup,
   Slider,
   SliderFilledTrack,
   SliderThumb,
-  SliderTrack,
+  SliderTrack, Stack,
   Textarea,
   VStack
 } from "@chakra-ui/react";
 import React, { ChangeEvent, UIEvent } from "react";
 import { unicode2latex, convertInterfaceFunction, convertAlgorithmFunction } from "../utils/utils";
 import { AiFillGithub } from "react-icons/ai";
+import { unicodeLatexCharacters } from "../utils/constants";
 
 const Home: NextPage = () => {
+  const [mode, setMode] = React.useState("unicode");
   const [output, setOutput] = React.useState("");
   const [fontSize, setFontSize] = React.useState(1.15);
   const [textAreaSize, setTextareaSize] = React.useState(50);
   const [ignoreScroll, setIgnoreScroll] = React.useState(false);
 
+  React.useEffect(() => {
+    convertInput((document.querySelector('#tad-textarea') as HTMLTextAreaElement)?.value);
+  }, [mode]);
+
   const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const input = (e.target.value).trim().replace(/\n+$/, '').split('---\n');
-    setOutput(input.map((functionInput) =>
-      functionInput && unicode2latex(/pre *≡/i.test(functionInput) ?
-        convertInterfaceFunction(functionInput.trim()) :
-        convertAlgorithmFunction(functionInput.trim()) )).join('\n\n'));
+    const input = (e.target.value).trim().replace(/\n+$/, '');
+    convertInput(input);
+  }
+
+  const convertInput = (input : string) => {
+    if (mode === 'unicode') {
+      let output = input;
+      unicodeLatexCharacters.forEach(([unicodeCharacter, latexEquivalent]) => {
+        console.log(unicodeCharacter)
+        output = output.replaceAll(unicodeCharacter, latexEquivalent);
+      });
+      setOutput(output);
+    } else {
+      setOutput(input.split('---\n').map((functionInput) =>
+        functionInput && unicode2latex(/pre *≡/i.test(functionInput) ?
+          convertInterfaceFunction(functionInput.trim()) :
+          convertAlgorithmFunction(functionInput.trim()))).join('\n\n'));
+    }
   }
 
   const handleScroll = (e: UIEvent<HTMLTextAreaElement>) => {
@@ -69,31 +89,40 @@ const Home: NextPage = () => {
                       spellCheck={false}
                       fontSize='inherit'
                       color='inherit'
-                      placeholder="Funciones y algoritmos"
+                      placeholder="Texto en formato .tad"
                       onChange={handleInput}
                       onScroll={handleScroll}/>
-            <Flex width='100%' fontFamily='sans-serif' justifyContent='space-evenly'>
-              <Button colorScheme='blackAlpha' ml={4}
-                      onClick={() => {
-                        const tadTextarea: HTMLTextAreaElement = document.querySelector('#tad-textarea')!;
-                        const latexTextarea: HTMLTextAreaElement = document.querySelector('#latex-textarea')!;
-                        tadTextarea.value = "";
-                        latexTextarea.value = "";
-                      }}>
-                Clear
-              </Button>
-              <Button colorScheme='blackAlpha' mr={4}
-                      onClick={() => {
-                        const textarea: HTMLTextAreaElement = document.querySelector('#tad-textarea')!;
-                        textarea.select();
-                        navigator.clipboard.writeText(textarea.value).then();
-                      }}>
-                Copy to clipboard
-              </Button>
+            <Flex width='100%' fontFamily='sans-serif' justifyContent='space-between'>
+              <Box>
+                <Button colorScheme='blackAlpha' mx={4}
+                        onClick={() => {
+                          const tadTextarea: HTMLTextAreaElement = document.querySelector('#tad-textarea')!;
+                          const latexTextarea: HTMLTextAreaElement = document.querySelector('#latex-textarea')!;
+                          tadTextarea.value = "";
+                          latexTextarea.value = "";
+                        }}>
+                  Clear
+                </Button>
+                <Button colorScheme='blackAlpha' mr={4}
+                        onClick={() => {
+                          const textarea: HTMLTextAreaElement = document.querySelector('#tad-textarea')!;
+                          textarea.select();
+                          navigator.clipboard.writeText(textarea.value).then();
+                        }}>
+                  Copy to clipboard
+                </Button>
+              </Box>
+              <RadioGroup onChange={setMode} value={mode} mx={4} display='flex' alignItems='center'>
+                <Stack direction='row'>
+                  <Radio value='unicode' px={2}>Unicode characters</Radio>
+                  <Radio value='functions' px={2}>Functions</Radio>
+                </Stack>
+              </RadioGroup>
             </Flex>
           </VStack>
           <VStack width={`${100 - textAreaSize}%`}>
-            <Textarea width='100%' height='100%' readOnly={true} resize='none' id='latex-textarea' colorScheme='blackAlpha'
+            <Textarea width='100%' height='100%' readOnly={true} resize='none' id='latex-textarea'
+                      colorScheme='blackAlpha'
                       backgroundColor='editor'
                       spellCheck={false}
                       fontSize='inherit'
@@ -116,13 +145,15 @@ const Home: NextPage = () => {
       </main>
 
       <footer className={styles.footer}>
-        <a
-          href="https://github.com/f7olivera/tad2latex"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Icon as={AiFillGithub} color='white' fontSize='xxx-large' />
-        </a>
+        <div>
+          <a
+            href="https://github.com/f7olivera/tad2latex"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon as={AiFillGithub} color='white' fontSize='xxx-large'/>
+          </a>
+        </div>
       </footer>
     </div>
   )
