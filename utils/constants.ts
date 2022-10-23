@@ -1,4 +1,5 @@
 export const unicodeLatexCharacters = [['∈', '$\\in$'],
+  ['•', '$\\bullet$'],
   ['∀', '$\\forall$'],
   ['∧L', '$\\land_{L}$'],
   ['∨L', '$\\lor_{L}$'],
