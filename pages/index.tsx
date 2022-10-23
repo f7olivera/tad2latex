@@ -38,7 +38,6 @@ const Home: NextPage = () => {
     if (mode === 'unicode') {
       let output = input;
       unicodeLatexCharacters.forEach(([unicodeCharacter, latexEquivalent]) => {
-        console.log(unicodeCharacter)
         output = output.replaceAll(unicodeCharacter, latexEquivalent);
       });
       setOutput(output);
