@@ -9,7 +9,7 @@ export const unicode2latex = (text: string) => {
 }
 
 export const convertInterfaceFunction = (text: string) => {
-  const betweenBracketsPattern    = /(?<={ +)(\n|.)*?(?= +})/gi;
+  const betweenBracketsPattern    = /(?<={)(\n|.)*?(?=})/gi;
   const betweenParenthesisPattern = /(?<=: +).*?(?=$|\n)/gi;
 
   const patterns = ['interfaceName', 'parameters', 'resultType', 'pre', 'post', 'complexity', 'description', 'aliasing'];
